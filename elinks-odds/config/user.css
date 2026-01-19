@@ -1,0 +1,20 @@
+/*elinks' user.css*/
+abbr {color:magenta;}
+abbr::after {color: magenta; content: " (" attr(title) ")"}
+/*em {font-weight: bold;}*/
+
+h1 {
+	/* Underline it instead: */
+	font-style: underline !important;
+
+	/* Don't centre the text: */
+	text-align: left !important;
+}
+
+document         { color: yellow     }
+element          { color: lightgreen }
+entity-reference { color: red        }
+proc-instruction { color: red        }
+attribute        { color: magenta    }
+comment          { color: aqua       }
+cdata-section    { color: orange2    }

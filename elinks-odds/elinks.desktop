@@ -1,0 +1,14 @@
+[Desktop Entry]
+Version=1.1
+Icon=lynx
+Name=ELinks
+Comment=The authentic web browser
+Type=Application
+Exec=elinks %U
+Categories=ConsoleOnly;Network;WebBrowser;
+StartupNotify=false
+NoDisplay=false
+
+#[Desktop Action private]
+#Exec=elinks -anonymous 1 %U
+#Name=New Private Window

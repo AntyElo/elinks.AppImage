@@ -1,0 +1,19 @@
+#!/usr/bin/bash
+OLD="$(pwd)"
+_SRC="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+cd ${_SRC}/quickjs
+git pull || exit 1
+git log ORIG_HEAD..
+rm -rf build
+
+meson setup $(< ../quickjs.mf) build \
+|| { ${PAGER:-pager} build/meson-logs/meson-log.txt; exit 2; }
+meson compile -j $((($(nproc) - 1))) -C build || exit 3
+
+if [ -z "$NOINSTALL" ] ; then
+sudo meson install -C build/ || exit 5
+fi
+
+cd "$OLD"
+unset _SRC OLD

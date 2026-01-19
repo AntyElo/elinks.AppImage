@@ -1,0 +1,15 @@
+# image/gif; ncplayer -k -q %s; needsterminal
+# image/*; convert %s sixel:-; copiousoutput
+image/*; chafa %s; copiousoutput
+video/*; mpv --vo=sixel --really-quiet --vo-sixel-buffered %s; needsterminal
+# this is from sox:
+audio/*; play %s; needsterminal
+text/html; elinks -force-html -dump %s; copiousotput
+text/markdown; pandoc -s %s; copiousotput
+text/csv; sc-im %s; needsterminal
+text/tab-separated-values; sc-im %s; needsterminal
+application/vnd.ms-excel;  sc-im %s; needsterminal
+application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; sc-im %s; needsterminal 
+# application/octet-stream; xxd -g 1 -c 24 %s; copiousoutput
+application/octet-stream; nano %s; needsterminal
+text/*; nano %s; needsterminal

@@ -1,0 +1,108 @@
+# The White Birch colorscheme ##################################################
+
+set ui.colors.color.desktop.text = "#f0f0f0"
+set ui.colors.color.desktop.background = "#e0e0e0"
+
+set ui.colors.color.tabs.unvisited.text = "steelblue"
+set ui.colors.color.tabs.unvisited.background = "#e8e8e8"
+
+set ui.colors.color.tabs.normal.text = "black"
+set ui.colors.color.tabs.normal.background = "#d8d8d8"
+
+set ui.colors.color.tabs.loading.text = "green"
+set ui.colors.color.tabs.loading.background = "#e8e8e8"
+
+set ui.colors.color.tabs.selected.text = "black"
+set ui.colors.color.tabs.selected.background = "#b8b8b8"
+
+set ui.colors.color.tabs.separator.text = "steelblue"
+set ui.colors.color.tabs.separator.background = "#d8d8d8"
+
+set ui.colors.color.status.status-bar.text = "black"
+set ui.colors.color.status.status-bar.background = "#d8d8d8"
+
+set ui.colors.color.status.status-text.text = "black"
+set ui.colors.color.status.status-text.background = "#d8d8d8"
+
+set ui.colors.color.status.showip-text.text = "black"
+set ui.colors.color.status.showip-text.background = "#d8d8d8"
+
+set ui.colors.color.status.showmem-text.text = "black"
+set ui.colors.color.status.showmem-text.background = "#d8d8d8"
+
+set ui.colors.color.mainmenu.normal.text = "black"
+set ui.colors.color.mainmenu.normal.background = "#d8d8d8"
+
+set ui.colors.color.mainmenu.hotkey.normal.text = "red"
+set ui.colors.color.mainmenu.hotkey.normal.background = "#d8d8d8"
+
+set ui.colors.color.mainmenu.hotkey.selected.text = "red"
+set ui.colors.color.mainmenu.hotkey.selected.background = "#d8d8d8"
+
+set ui.colors.color.menu.normal.text = "black"
+set ui.colors.color.menu.normal.background = "#d8d8d8"
+
+set ui.colors.color.menu.frame.text = "#505050"
+set ui.colors.color.menu.frame.background = "#d8d8d8"
+
+set ui.colors.color.menu.selected.text = "black"
+set ui.colors.color.menu.selected.background = "lightgreen"
+
+set ui.colors.color.menu.marked.text = "green"
+set ui.colors.color.menu.marked.background = "#d8d8d8"
+
+set ui.colors.color.menu.hotkey.normal.text = "red"
+set ui.colors.color.menu.hotkey.normal.background = "#d8d8d8"
+
+set ui.colors.color.menu.hotkey.selected.text = "red"
+set ui.colors.color.menu.hotkey.selected.background = "lightgreen"
+
+set ui.colors.color.title.title-bar.text = "black"
+set ui.colors.color.title.title-bar.background = "#d8d8d8"
+
+set ui.colors.color.title.title-text.text = "black"
+set ui.colors.color.title.title-text.background = "#d8d8d8"
+
+set ui.colors.color.dialog.generic.text = "black"
+set ui.colors.color.dialog.generic.background = "#d8d8d8"
+
+set ui.colors.color.dialog.frame.text = "#505050"
+set ui.colors.color.dialog.frame.background = "#d8d8d8"
+
+set ui.colors.color.dialog.scrollbar.text = "white"
+
+set ui.colors.color.dialog.title.text = "green"
+set ui.colors.color.dialog.title.background = "#d8d8d8"
+
+set ui.colors.color.dialog.text.text = "black"
+set ui.colors.color.dialog.text.background = "#d8d8d8"
+
+set ui.colors.color.dialog.checkbox.text = "green"
+set ui.colors.color.dialog.checkbox.background = "#d8d8d8"
+
+set ui.colors.color.dialog.button.text = "black"
+set ui.colors.color.dialog.button.background = "lightgreen"
+
+set ui.colors.color.dialog.button-shortcut.text = "red"
+set ui.colors.color.dialog.button-shortcut.background = "lightgreen"
+
+set ui.colors.color.dialog.field.text = "darkslategray"
+set ui.colors.color.dialog.field.background = "lightgreen"
+
+set ui.colors.color.dialog.field-text.text = "black"
+set ui.colors.color.dialog.field-text.background = "lightgreen"
+
+set ui.colors.color.dialog.shadow.text = "#e8e8e8"
+set ui.colors.color.dialog.shadow.background = "#e8e8e8"
+
+set ui.colors.color.dialog.checkbox-label.text = "black"
+set ui.colors.color.dialog.checkbox-label.background = "#d8d8d8"
+
+set ui.colors.color.dialog.button-selected.text = "black"
+set ui.colors.color.dialog.button-selected.background = "lightyellow"
+
+set ui.colors.color.dialog.button-shortcut-selected.text = "red"
+set ui.colors.color.dialog.button-shortcut-selected.background = "lightyellow"
+
+set ui.colors.color.dialog.meter.text = "black"
+set ui.colors.color.dialog.meter.background = "lightgreen"
