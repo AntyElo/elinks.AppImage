@@ -1,6 +1,16 @@
 #!/usr/bin/bash
-OLD="$(pwd)"
+_OLD="$(pwd)"
 _SRC="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+if pkg-config quickjs-ng
+then echo "refresh: quickjs-ng already installed"
+else ./refresh-quickjs
+fi
+
+if pkg-config libcss
+then echo "refresh: lib* from netsurf already installed"
+else ./install-libnetsurf
+fi
 
 cd "${_SRC}/elinks"
 git pull #|| exit 1
@@ -12,7 +22,7 @@ meson setup $(< ../elinks.mf) build --prefix=/usr \
 meson compile -j $((($(nproc) - 1))) -C build || exit 3
 
 rm -rf "${_SRC}/AppDir"
-DESTDIR="${_SRC}/AppDir" meson install -C build/   || exit 5
+DESTDIR="${_SRC}/AppDir" meson install -C build/ || exit 5
 
 cd ..
 
@@ -39,5 +49,5 @@ cp elinks-odds/AppRun AppDir/AppRun
 
 linuxdeploy/linuxdeploy-plugin-appimage-x86_64.AppImage --appdir AppDir
 
-cd "$OLD"
-unset _SRC OLD
+cd "${_OLD}"
+unset _SRC _OLD
