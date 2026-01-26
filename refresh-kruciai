@@ -9,8 +9,8 @@ git_log() {
 }
 
 cd "${_SRC}"
+echo "--- $0 ($(date))"
 rm -rf AppDir
-
 mkdir -p repos
 ./setup-libnetsurf
 
@@ -37,11 +37,13 @@ fi
 
 rm -rf build
 
-meson setup $(< "${_SRC}"/meson-flags/quickjs) build --prefix=/usr \
+meson setup $(< "${_SRC}/meson-flags/quickjs") build --prefix=/usr \
 || { ${PAGER:-pager} build/meson-logs/meson-log.txt; exit 11; }
 meson compile -j $((($(nproc) - 1))) -C build || exit 12
 
 DESTDIR="${_SRC}/AppDir" meson install -C build/ || exit 13
+
+cd ..
 
 if [ ! -d elinks ]
 then 
@@ -58,7 +60,7 @@ rm -rf build
 #FIXME: install depends to AppDir: quickjs and lib*(netsurf)
 #FIXME: and use it in elinks compilation (how build should work?)
 
-meson setup $(< "${_SRC}"/meson-flags/elinks) build --prefix=/usr \
+meson setup $(< "${_SRC}/meson-flags/elinks") build --prefix=/usr \
 || { ${PAGER:-pager} build/meson-logs/meson-log.txt; exit 21; }
 meson compile -j $((($(nproc) - 1))) -C build || exit 22
 

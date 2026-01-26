@@ -19,7 +19,7 @@ fi
 
 export CFLAGS="-Wno-error"
 
-export PREFIX=../../AppDir
+export PREFIX=../../../AppDir
 ASLIBSTATIC="-j1 Q= LIBDIR=lib COMPONENT_TYPE=lib-static"
 
 make -C buildsystem-1.10 install

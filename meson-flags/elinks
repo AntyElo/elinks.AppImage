@@ -1,5 +1,5 @@
 -Dbuildtype=release
--Ddoc=false
+-Dxterm=x-terminal-emulator
 -Dgnutls=true
 -Dterminfo=true
 -Dbrotli=true
@@ -26,5 +26,5 @@
 -Dlibavif=true
 -Dlibwebp=true
 -Dsmb=true
+ -Ddoc=true
  -Dstatic=false
--Dxterm=x-terminal-emulator
