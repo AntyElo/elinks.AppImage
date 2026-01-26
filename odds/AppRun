@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+# AppImage Root
+AIR="$(dirname "$(readlink -f "${0}")")"
+OLDPWD="$(pwd)"
+OLDPATH="${PATH}"
+
+# Touch config
+if [ ! -d "$HOME/.config/elinks" ]; then
+    cp -r "$AIR/etc/elinks" "$HOME/.config/elinks"
+fi
+
+# Execute something
+cd "$AIR"
+export PATH="${AIR}/usr/bin:${PATH}"
+
+case $1 in
+    --bash|--sh|--shell)
+    echo 'Hi! Type "elinks" to start web-surfing, or press ^D to exit'
+    shift
+    bash "$@"
+    ;;
+
+    *) elinks "$@" ;;
+esac
+
+export PATH="${OLDPATH}"
+cd "${OLDPWD}"
+
+# Delete local variablle
+unset AIR OLDPWD OLDPATH

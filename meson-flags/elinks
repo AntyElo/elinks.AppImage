@@ -27,4 +27,4 @@
 -Dlibwebp=true
 -Dsmb=true
  -Dstatic=false
--Dxterm=x-terminal-emulator 
+-Dxterm=x-terminal-emulator

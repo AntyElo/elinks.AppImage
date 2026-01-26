@@ -1,4 +1,4 @@
-linuxdeploy/*
-libnetsurf/*
+repos/*
 AppDir/*
-ELinks-x86_64.AppImage
+*.AppImage
+nohup.out
