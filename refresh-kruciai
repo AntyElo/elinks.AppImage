@@ -1,11 +1,24 @@
 #!/usr/bin/bash
 _OLD="$(pwd)"
 _SRC="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+ARCH="${ARCH:-$(gcc -dumpmachine)}"
 
 git_log() {
     if [ -n "${GIT_LOG_SHOW}" ]
     then git log ORIG_HEAD..
     fi
+}
+
+meson_setup() {
+    meson setup $(< "${_SRC}/meson-flags/$1") $MESON_PATHS build \
+    -Dcmake_prefix_path="${_SRC}/AppDir/usr:${_SRC}/AppDir" \
+    -Dpkg_config_path="${_SRC}/AppDir/usr/lib/${ARCH}/pkgconfig:${_SRC}/AppDir/usr/lib/pkgconfig:${_SRC}/AppDir/lib/pkgconfig" \
+    -Dcpp_args="-I${_SRC}/AppDir/usr/include/quickjs-ng -I${_SRC}/AppDir/usr/include -I${_SRC}/AppDir/include" \
+    -Dc_args="-I${_SRC}/AppDir/usr/include/quickjs-ng -I${_SRC}/AppDir/usr/include -I${_SRC}/AppDir/include" \
+    -Dcpp_link_args="-L${_SRC}/AppDir/usr/lib/${ARCH} -L${_SRC}/AppDir/usr/lib" \
+    -Dc_link_args="-L${_SRC}/AppDir/usr/lib/${ARCH} -L${_SRC}/AppDir/usr/lib" \
+    --prefix=/usr \
+    || { ${PAGER:-pager} build/meson-logs/meson-log.txt; exit $2; }
 }
 
 cd "${_SRC}"
@@ -29,6 +42,7 @@ fi
 if [ ! -d quickjs ]
 then
     git clone https://github.com/quickjs-ng/quickjs.git
+    cd quickjs
 else 
     cd quickjs
     git pull
@@ -37,8 +51,7 @@ fi
 
 rm -rf build
 
-meson setup $(< "${_SRC}/meson-flags/quickjs") build --prefix=/usr \
-|| { ${PAGER:-pager} build/meson-logs/meson-log.txt; exit 11; }
+meson_setup quickjs 11
 meson compile -j $((($(nproc) - 1))) -C build || exit 12
 
 DESTDIR="${_SRC}/AppDir" meson install -C build/ || exit 13
@@ -57,11 +70,7 @@ fi
 
 rm -rf build
 
-#FIXME: install depends to AppDir: quickjs and lib*(netsurf)
-#FIXME: and use it in elinks compilation (how build should work?)
-
-meson setup $(< "${_SRC}/meson-flags/elinks") build --prefix=/usr \
-|| { ${PAGER:-pager} build/meson-logs/meson-log.txt; exit 21; }
+meson_setup elinks 21
 meson compile -j $((($(nproc) - 1))) -C build || exit 22
 
 DESTDIR="${_SRC}/AppDir" meson install -C build/ || exit 23
