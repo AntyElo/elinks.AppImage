@@ -3,11 +3,7 @@ _OLD="$(pwd)"
 _SRC="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 ARCH="${ARCH:-$(gcc -dumpmachine)}"
 
-git_log() {
-    if [ -n "${GIT_LOG_SHOW}" ]
-    then git log ORIG_HEAD..
-    fi
-}
+alias git_log='if [ -n "${GIT_LOG_SHOW}" ] ; then git log ORIG_HEAD.. | ${PAGER:-less -K}; fi'
 
 meson_setup() {
     meson setup $(< "${_SRC}/meson-flags/$1") $MESON_PATHS build \
@@ -74,6 +70,26 @@ meson_setup elinks 21
 meson compile -j $((($(nproc) - 1))) -C build || exit 22
 
 DESTDIR="${_SRC}/AppDir" meson install -C build/ || exit 23
+
+if [ "$1" == "--with-chawan" ]
+then
+    shift
+    cd ..
+    if [ ! -d chawan ]
+    then
+        git clone https://git.sr.ht/~bptato/chawan
+        cd chawan
+    else
+        cd chawan
+        git pull
+        git_log
+    fi
+    export PREFIX=/usr
+    make || exit 32
+    DESTDIR="${_SRC}/AppDir" make install || exit 33
+    unset PREFIX
+    #export AIM=cha
+fi
 
 cd "${_SRC}"
 

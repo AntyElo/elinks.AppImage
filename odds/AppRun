@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 
-# AppImage Root
-AIR="$(dirname "$(readlink -f "${0}")")"
-OLDPWD="$(pwd)"
-OLDPATH="${PATH}"
+# AppImage Root or Main-executable
+export AIR="$(dirname "$(readlink -f "${0}")")"
+export AIM="${AIM:-elinks}"
+OWD="$(pwd)"
+OLD_PATH="${PATH}"
+OLD_MANPATH="${MANPATH}"
 
 # Touch config
 if [ ! -d "$HOME/.config/elinks" ]; then
@@ -13,19 +15,53 @@ fi
 # Execute something
 cd "$AIR"
 export PATH="${AIR}/usr/bin:${PATH}"
+#export TEXTDOMAINDIR="${AIR}/usr/share/locale${TEXTDOMAINDIR:+:${TEXTDOMAINDIR}}"
+#export XDG_DATA_DIRS="${AIR}/usr/share:${XDG_DATA_DIRS:-${HOME}/.local/share:/usr/local/share:/usr/share}"
+export MANPATH="${AIR}/usr/share/man${MANPATH:+:${MANPATH}}"
+
+if [ "$1" == "--save-cwd" ]
+then
+    cd "OWD"
+    shift
+fi
 
 case $1 in
-    --bash|--sh|--shell)
-    echo 'Hi! Type "elinks" to start web-surfing, or press ^D to exit'
-    shift
-    bash "$@"
+    help)
+    echo "using: this.AppImage [ --save-cwd ] [ COMMAND ] [ ARGS ]
+
+    commands:       description:
+    sh, shell       runs shell in appimage root (\$AIR)
+    qjs             runs quickjs' repl
+    help            display this help page
+    man [ PAGE ]    display manpage
+
+    if command is not found, then runs ${AIM}
+    "
     ;;
 
-    *) elinks "$@" ;;
+    sh|shell)
+    shift
+    ${SHELL:=bash} "$@"
+    ;;
+
+    qjs)
+    shift
+    qjs "$@"
+    ;;
+
+    man)
+    shift
+    PAGE=${1:-$AIM}
+    shift
+    man "$@" $PAGE
+    ;;
+
+    *) $AIM "$@" ;;
 esac
 
-export PATH="${OLDPATH}"
-cd "${OLDPWD}"
+export PATH="${OLD_PATH}"
+export MANPATH="${OLD_MANPATH}"
+cd "${OWD}"
 
 # Delete local variablle
-unset AIR OLDPWD OLDPATH
+unset AIR AIM OWD OLD_PATH OLD_MANPATH
