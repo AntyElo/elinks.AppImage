@@ -22,7 +22,7 @@ echo "--- $0 ($(date))"
 rm -rf AppDir
 mkdir -p repos
 ./setup-libnetsurf
-
+cp -r repos/libnetsurf/AppDir ./
 cd repos
 
 if [ ! -d linuxdeploy ] ; then
