@@ -1,18 +1,19 @@
 #!/usr/bin/bash
 _OLD="$(pwd)"
 _SRC="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-ARCH="${ARCH:-$(gcc -dumpmachine)}"
+ARCHM="${ARCHM:-$(uname -m)}"
+ARCHT="${ARCHT:-$(gcc -dumpmachine)}"
 
-alias git_log='if [ -n "${GIT_LOG_SHOW}" ] ; then git log ORIG_HEAD.. | ${PAGER:-less -K}; fi'
+git_log() { if [ -n "${GIT_LOG_SHOW}" ] ; then git log ORIG_HEAD.. | ${PAGER:-less -K}; fi; }
 
 meson_setup() {
     meson setup $(< "${_SRC}/meson-flags/$1") $MESON_PATHS build \
     -Dcmake_prefix_path="${_SRC}/AppDir/usr:${_SRC}/AppDir" \
-    -Dpkg_config_path="${_SRC}/AppDir/usr/lib/${ARCH}/pkgconfig:${_SRC}/AppDir/usr/lib/pkgconfig:${_SRC}/AppDir/lib/pkgconfig" \
+    -Dpkg_config_path="${_SRC}/AppDir/usr/lib/${ARCHT}/pkgconfig:${_SRC}/AppDir/usr/lib/pkgconfig:${_SRC}/AppDir/lib/pkgconfig" \
     -Dcpp_args="-I${_SRC}/AppDir/usr/include/quickjs-ng -I${_SRC}/AppDir/usr/include -I${_SRC}/AppDir/include" \
     -Dc_args="-I${_SRC}/AppDir/usr/include/quickjs-ng -I${_SRC}/AppDir/usr/include -I${_SRC}/AppDir/include" \
-    -Dcpp_link_args="-L${_SRC}/AppDir/usr/lib/${ARCH} -L${_SRC}/AppDir/usr/lib" \
-    -Dc_link_args="-L${_SRC}/AppDir/usr/lib/${ARCH} -L${_SRC}/AppDir/usr/lib" \
+    -Dcpp_link_args="-L${_SRC}/AppDir/usr/lib/${ARCHT} -L${_SRC}/AppDir/usr/lib -L${_SRC}/AppDir/lib" \
+    -Dc_link_args="-L${_SRC}/AppDir/usr/lib/${ARCHT} -L${_SRC}/AppDir/usr/lib -L${_SRC}/AppDir/lib" \
     --prefix=/usr \
     || { ${PAGER:-pager} build/meson-logs/meson-log.txt; exit $2; }
 }
@@ -28,8 +29,8 @@ cd repos
 if [ ! -d linuxdeploy ] ; then
     mkdir linuxdeploy
     cd linuxdeploy
-    wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
-    wget https://github.com/linuxdeploy/linuxdeploy-plugin-appimage/releases/download/continuous/linuxdeploy-plugin-appimage-x86_64.AppImage
+    wget https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-${ARCHM}.AppImage
+    wget https://github.com/linuxdeploy/linuxdeploy-plugin-appimage/releases/download/continuous/linuxdeploy-plugin-appimage-${ARCHM}.AppImage
     chmod +x linuxdeploy-x86_64.AppImage
     chmod +x linuxdeploy-plugin-appimage-x86_64.AppImage
     cd ..
@@ -39,7 +40,7 @@ if [ ! -d quickjs ]
 then
     git clone https://github.com/quickjs-ng/quickjs.git
     cd quickjs
-else 
+else
     cd quickjs
     git pull
     git_log
@@ -55,10 +56,10 @@ DESTDIR="${_SRC}/AppDir" meson install -C build/ || exit 13
 cd ..
 
 if [ ! -d elinks ]
-then 
+then
     git clone https://github.com/rkd77/elinks.git
     cd elinks
-else 
+else
     cd elinks
     git pull
     git_log
@@ -95,7 +96,7 @@ cd "${_SRC}"
 
 cp -r odds/etc AppDir/etc
 
-repos/linuxdeploy/linuxdeploy-x86_64.AppImage --appdir AppDir \
+repos/linuxdeploy/linuxdeploy-${ARCHM}.AppImage --appdir AppDir \
     -e AppDir/usr/bin/elinks \
     -d odds/elinks.desktop \
     -i odds/kruciai.png
@@ -103,7 +104,7 @@ repos/linuxdeploy/linuxdeploy-x86_64.AppImage --appdir AppDir \
 rm AppDir/AppRun
 cp odds/AppRun AppDir/AppRun
 
-repos/linuxdeploy/linuxdeploy-plugin-appimage-x86_64.AppImage --appdir AppDir
+repos/linuxdeploy/linuxdeploy-plugin-appimage-${ARCHM}.AppImage --appdir AppDir
 
 cd "${_OLD}"
 unset _SRC _OLD
